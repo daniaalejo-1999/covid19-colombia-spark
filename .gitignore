@@ -1,0 +1,8 @@
+data/
+resultados/
+resultados_streaming/
+spark-warehouse/
+metastore_db/
+derby.log
+__pycache__/
+*.pyc
