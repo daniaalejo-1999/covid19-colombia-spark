@@ -64,7 +64,7 @@ pip install -r requirements.txt
 ### 1.1 Obtener el código y los datos
 
 ```bash
-git clone https://github.com/<tu-usuario>/covid19-colombia-spark.git
+git clone https://github.com/daniaalejo-1999/covid19-colombia-spark.git
 cd covid19-colombia-spark
 pip install -r requirements.txt
 
