@@ -78,13 +78,14 @@ def guardar_tablero(lote_df, actual, inicio, fin):
         return
 
     os.makedirs(CARPETA, exist_ok=True)
-    (lote_df.select(F.col("window.start").alias("inicio_ventana"), "departamento", "casos",
+    # La ventana se pasa a texto: toPandas falla con columnas timestamp en algunas versiones de pandas
+    (lote_df.select(F.date_format("window.start", "yyyy-MM-dd HH:mm").alias("inicio_ventana"), "departamento", "casos",
                     "fallecidos", "graves_o_fallecidos", "edad_promedio")
             .orderBy("inicio_ventana", F.desc("casos"))
             .toPandas()
             .to_csv(os.path.join(CARPETA, "ventanas.csv"), index=False))
 
-    datos = actual.limit(15).toPandas().iloc[::-1]
+    datos = actual.select("departamento", "casos", "graves_o_fallecidos").limit(15).toPandas().iloc[::-1]
     fig, ax = plt.subplots(figsize=(10, 6))
     ax.barh(datos["departamento"], datos["casos"], color="tab:blue", label="Casos")
     ax.barh(datos["departamento"], datos["graves_o_fallecidos"], color="tab:red",
